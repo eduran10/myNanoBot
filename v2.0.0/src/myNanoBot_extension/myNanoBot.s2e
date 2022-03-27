@@ -1,0 +1,318 @@
+{
+	"extensionName": "myNanoBot",
+	"description": "Arduino Nano Based Educational Robot",
+	"version": "2.0.0",
+	"author": "Erkan DURAN (erkanduran.wordpress.com)",
+	"homepage": "https://github.com/eduran10/mynanobot",
+	"sort": 0,
+	"javascriptURL": "js/myNanoBot.js",
+	"firmware": "2.0.0",
+	"extensionPort": 0,
+	"tags" : "mBlock, Arduino, Nano, Educational, Robot",
+	"blockSpecs": [
+		[
+			"h",
+			"myNanoBot Program",
+			"runArduino",
+			{
+				"setup" : "",
+				"inc" : "",
+				"def" : "#define IN1 2\n#define IN2 3\n#define DLDR 4\n#define ENA 5\n#define ENB 6\n#define IN3 7\n#define IN4 8\n#define RRGB 9\n#define GRGB 10\n#define BRGB 11\n#define BZZR 12\n#define TRIG A0\n#define ECHO A1\n#define ALDR A2\n#define DSND A3\n#define ASND A4\n#define RIGHTDC 1\n#define LEFTDC 3\n#define BACKWARD 98\n#define LEFT 108\n#define FORWARD 102\n#define RIGHT 114\n#define STOP 115\n--separator--void runMotor(int dcMotor, int direction, int speed) {\nif (dcMotor == RIGHTDC) {\nif (direction == FORWARD) {\ndigitalWrite(IN1, 1);\ndigitalWrite(IN2, 0);\n} else if (direction == BACKWARD) {\ndigitalWrite(IN1, 0);\ndigitalWrite(IN2, 1);\n} else { //STOP\ndigitalWrite(IN1, 0);\ndigitalWrite(IN2, 0);\n}\nanalogWrite(ENA, speed);\n} else if (dcMotor == LEFTDC) {\nif (direction == FORWARD) {\ndigitalWrite(IN3, 1);\ndigitalWrite(IN4, 0);\n} else if (direction == BACKWARD){\ndigitalWrite(IN3, 0);\ndigitalWrite(IN4, 1);\n} else { //STOP\ndigitalWrite(IN3, 0);\ndigitalWrite(IN4, 0);\n}\nanalogWrite(ENB, speed);\n}\n}\n",
+				"work" : "",
+				"loop" : ""
+			}
+		],
+		[
+			"w",
+			"Run forward at speed %d.val",
+			"runForward",
+			"150",
+			{
+				"setup" : "pinMode(IN1,OUTPUT);\npinMode(IN2,OUTPUT);\npinMode(IN3,OUTPUT);\npinMode(IN4,OUTPUT);\npinMode(ENA,OUTPUT);\npinMode(ENB,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "runMotor(LEFTDC,FORWARD,{0});\nrunMotor(RIGHTDC,FORWARD,{0});\n",
+				"loop": ""
+			}
+		],
+		[
+			"w",
+			"Run backward at speed %d.val",
+			"runBackward",
+			"150",
+			{
+				"setup" : "pinMode(IN1,OUTPUT);\npinMode(IN2,OUTPUT);\npinMode(IN3,OUTPUT);\npinMode(IN4,OUTPUT);\npinMode(ENA,OUTPUT);\npinMode(ENB,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "runMotor(LEFTDC,BACKWARD,{0});\nrunMotor(RIGHTDC,BACKWARD,{0});\n",
+				"loop": ""
+			}
+		],
+		[
+			"w",
+			"Turn right at speed %d.val",
+			"turnRight",
+			"150",
+			{
+				"setup" : "pinMode(IN1,OUTPUT);\npinMode(IN2,OUTPUT);\npinMode(IN3,OUTPUT);\npinMode(IN4,OUTPUT);\npinMode(ENA,OUTPUT);\npinMode(ENB,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "runMotor(LEFTDC,FORWARD,{0});\nrunMotor(RIGHTDC,BACKWARD,{0});\n",
+				"loop": ""
+			}
+		],		
+		[
+			"w",
+			"Turn left at speed %d.val",
+			"turnLeft",
+			"150",
+			{
+				"setup" : "pinMode(IN1,OUTPUT);\npinMode(IN2,OUTPUT);\npinMode(IN3,OUTPUT);\npinMode(IN4,OUTPUT);\npinMode(ENA,OUTPUT);\npinMode(ENB,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "runMotor(LEFTDC,BACKWARD,{0});\nrunMotor(RIGHTDC,FORWARD,{0});\n",
+				"loop": ""
+			}
+		],
+		[
+			"w",
+			"Set right motor to %d.dir at speed %d.val",
+			"runRightMotor",
+			"forward",
+			"150",
+			{
+				"setup" : "pinMode(IN1,OUTPUT);\npinMode(IN2,OUTPUT);\npinMode(ENA,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "runMotor(RIGHTDC,{0},{1});\n",
+				"loop": ""
+			}
+		],
+		[
+			"w",
+			"Set left motor to %d.dir at speed %d.val",
+			"runLeftMotor",
+			"forward",
+			"150",
+			{
+				"setup" : "pinMode(IN3,OUTPUT);\npinMode(IN4,OUTPUT);\npinMode(ENB,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "runMotor(LEFTDC,{0},{1});\n",
+				"loop": ""
+			}
+		],		
+		[
+			"w",
+			"Stop",
+			"stopBot",
+			{
+				"setup" : "pinMode(IN1,OUTPUT);\npinMode(IN2,OUTPUT);\npinMode(IN3,OUTPUT);\npinMode(IN4,OUTPUT);\npinMode(ENA,OUTPUT);\npinMode(ENB,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "runMotor(LEFTDC,STOP,0);\nrunMotor(RIGHTDC,STOP,0);\n",
+				"loop": ""
+			}
+		],
+		[
+			"w",
+			"Set RGB Led %d.color",
+			"setRGBLed",
+			"----",
+			{
+				"setup" : "pinMode(RRGB,OUTPUT);\npinMode(GRGB,OUTPUT);\npinMode(BRGB,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "digitalWrite(RRGB, 0);\ndigitalWrite(GRGB, 0);\ndigitalWrite(BRGB, 0);\nif ({0} != 0) {\ndigitalWrite({0},1);\n}\n",
+				"loop": ""
+			}
+		],
+		[
+			"w",
+			"Set RGB Led Red %d.val Green %d.val Blue %d.val",
+			"setRGBLedValue",
+			"0",
+			"0",
+			"0",
+			{
+				"setup" : "pinMode(RRGB,OUTPUT);\npinMode(GRGB,OUTPUT);\npinMode(BRGB,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "analogWrite(RRGB, {0});\nanalogWrite(GRGB, {1});\nanalogWrite(BRGB, {2});\n",
+				"loop": ""
+			}
+		],
+		[
+			"B",
+			"Is it dark?",
+			"getLDR",
+			{
+				"setup" : "pinMode(DLDR,INPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "digitalRead(DLDR)",
+				"loop": ""
+			}
+		],
+		[
+			"R",
+			"Light sensor value",
+			"getLDRValue",
+			{
+				"setup" : "pinMode(ALDR,INPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "analogRead(ALDR)",
+				"loop": ""
+			}
+		],
+		[
+			"B",
+			"Is the voice detected?",
+			"getSoundSensor",
+			{
+				"setup" : "pinMode(DSND,INPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "digitalRead(DSND)",
+				"loop": ""
+			}
+		],	
+		[
+			"R",
+			"Sound sensor value",
+			"getSoundSensorValue",
+			{
+				"setup" : "pinMode(ASND,INPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "analogRead(ASND)",
+				"loop": ""
+			}
+		],		
+		[
+			"R",
+			"Distance sensor value",
+			"getHCSR04Value",
+			{
+				"setup" : "pinMode(TRIG,OUTPUT);\npinMode(ECHO,INPUT);\n",
+				"inc" : "",
+				"def" : "--separator--long getDistance()\n{\ndigitalWrite(TRIG,0);\ndelayMicroseconds(2);\ndigitalWrite(TRIG,1);\ndelayMicroseconds(10);\ndigitalWrite(TRIG, 0);\ndouble distance = pulseIn(ECHO, 1, 30000)/58.27;\nif (distance == 0) distance = 400;\nreturn distance;\n}\n",
+				"work" : "getDistance()",
+				"loop": ""
+			}
+		],
+		[
+			"w",
+			"Play tone on note %d.note beat %d.beat",
+			"playTone",
+			"C",
+			"Half",
+			{
+				"setup" : "pinMode(BZZR,OUTPUT);\n",
+				"inc" : "",
+				"def" : "",
+				"work" : "if ({1} > 0) tone(BZZR, {0}, {1}); else noTone(BZZR);\n",
+				"loop": ""
+			}
+		],
+		[
+			"R", 
+			"Timer ",
+			"getTimer", 
+			"0",
+			{				
+				"setup" : "",
+				"inc" : "",
+				"def" : "double currentTime = 0;\ndouble lastTime = 0;\n--separator--double getLastTime(){\nreturn currentTime = millis()/1000.0 - lastTime;\n}\n",
+				"work" : "getLastTime()",
+				"loop" : ""
+			}
+		],		
+		[
+			"w", 
+			"Reset timer",
+			"resetTimer", 
+			{				
+				"setup" : "",
+				"inc" : "",
+				"def": "double currentTime = 0;\ndouble lastTime = 0;\n",
+				"work" : "lastTime = millis()/1000.0;\n",
+				"loop" : ""
+			}
+		]
+	],
+	"menus": {
+		"val" : ["0", "50", "100", "150", "200", "255"],
+		"dir" : ["forward", "backward"],
+		"color" : ["----", "Red", "Green", "Blue"],
+		"note":["C", "D", "E", "F", "G", "A", "B"],
+		"beat":["Zero", "Eighth", "Quarter", "Half", "Whole", "Double"]
+	},
+	"values":{
+		"0" : 0,
+		"50" : 50,
+		"100" : 100,
+		"150" : 150,
+		"200" : 200,
+		"255" : 255,
+		"forward": 102,
+		"backward": 98,
+		"----": 0,
+		"Red" : 9,
+		"Green" : 10,
+		"Blue" : 11,
+		"C" : 2093,
+		"D" : 2349,
+		"E" : 2637,
+		"F" : 2794,
+		"G" : 3136,
+		"A" : 3520,
+		"B" : 3951,
+		"Zero" : 0,
+		"Eighth" : 125,
+		"Quarter" : 250,
+		"Half" : 500,
+		"Whole" : 1000,
+		"Double" : 2000
+	},
+	"translators":{
+		"latin5":{
+			"Run forward at speed %d.val" : "İleri git %d.val hızında",
+			"Run backward at speed %d.val" : "Geri git %d.val hızında",
+			"Turn left at speed %d.val" : "Sola dön %d.val hızında",
+			"Turn right at speed %d.val" : "Sağa dön %d.val hızında",
+			"Set left motor to %d.dir at speed %d.val": "Sol motoru %d.dir doğru %d.val hızında çalıştır",
+			"Set right motor to %d.dir at speed %d.val": "Sağ motoru %d.dir doğru %d.val hızında çalıştır",
+			"Stop" : "Dur",
+			"Set RGB Led %d.color" : "RGB Ledi %d.color yak",
+			"Set RGB Led Red %d.val Green %d.val Blue %d.val" : "RGB Ledi Kırmızı %d.val Yeşil %d.val Mavi %d.val değerinde yak",
+			"Is it dark?" : "Karanlık mı?",
+			"Light sensor value" : "Işık sensörü değeri",
+			"Is the voice detected?" : "Ses algılandı mı?",
+			"Sound sensor value" : "Ses sensörü değeri",			
+			"Distance sensor value" : "Mesafe sensörü değeri",
+			"Play tone on note %d.note beat %d.beat": "%d.note notasını %d.beat vuruş çal",
+			"forward": "ileri",
+			"backward": "geri",
+			"Timer ": "Süre ölçer",
+			"Reset timer":	"Süre ölçeri sıfırla",
+			"Red" : "Kırmızı",
+			"Green" : "Yeşil",
+			"Blue" : "Mavi",
+			"C": "Do",
+			"D" : "Re",
+			"E": "Mi",
+			"F" : "Fa",
+			"G" : "Sol",
+			"A" : "La",
+			"B" : "Si",
+			"Zero" : "Sıfır",
+			"Eighth" : "Sekizde bir",
+			"Quarter" : "Çeyrek",
+			"Half": "Yarım",
+			"Whole" : "Tam",
+			"Double" : "Çift"
+		}
+	}
+}
